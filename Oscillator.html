@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  let context = new AudioContext();
+  let osc = context.createOscillator();
+  osc.type = 'sine';
+  let gain = context.createGain();
+  gain.connect( context.destination );
+  gain.gain.exponentialRampToValueAtTime(
+    0.1,  0.5
+  );
+  osc.connect( gain );
+
+
+</script>
+</html>

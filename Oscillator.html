@@ -7,19 +7,46 @@
   <title>Document</title>
 </head>
 <body>
-  
+  <button onclick="tick()">tick</button>
+  <button onclick="tock()">tock</button>
+  <button onclick="metronome.play = true; metronome.lup();">loop</button>
+  <button onclick="metronome.play = false">stop</button>
 </body>
 <script>
-  let context = new AudioContext();
-  let osc = context.createOscillator();
-  osc.type = 'sine';
-  let gain = context.createGain();
-  gain.connect( context.destination );
-  gain.gain.exponentialRampToValueAtTime(
-    0.1,  0.5
-  );
-  osc.connect( gain );
+  const tick = function( freq ) {
+    let context = new AudioContext();
+    let osc = context.createOscillator();
+    osc.type = 'sine';
+    let gain = context.createGain();
+    gain.connect( context.destination );
+    gain.gain.exponentialRampToValueAtTime(
+      0.00001,  0.15
+    );
+    osc.connect( gain );
+    osc.frequency.value = freq;
+    
+    osc.start();
+  }
 
+  let timeSignatures = 4;
 
+  const bpm = function ( delay ) {
+    var start = new Date().getTime();
+    while( new Date().getTime() < start + delay );
+  }
+
+  const metronome = {
+    lup: function( ){
+      while( this.bool ) {
+        tick( 880.0 );
+        bpm( 1000 );
+        for( var beat = 1; beat < timeSignatures; beat++ ) {
+          tick( 440.0 );
+          bpm( 1000 );
+        }
+      }
+    },
+    play: false
+  }
 </script>
 </html>
